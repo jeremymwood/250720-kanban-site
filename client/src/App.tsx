@@ -906,7 +906,7 @@ function App() {
               </button>
             </div>
             <p style={{ margin: "0 0 0.75rem 0" }}>
-              This GitHub Pages experience is an interactive kKanban demo built for portfolio review.
+              This GitHub Pages experience is an interactive kanban demo built for portfolio review.
               It runs in demo mode with seeded data to showcase UI and workflow behavior without a live backend.
             </p>
             <p style={{ margin: 0 }}>
