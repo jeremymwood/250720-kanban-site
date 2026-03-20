@@ -1,0 +1,107 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Ishi is a full-stack Kanban application with role-based workflows, secure auth, and production-focused reliability."
+    />
+    <title>Ishi | Kanban Portfolio Project</title>
+    <link rel="stylesheet" href="./site.css" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <h1>Ishi</h1>
+        <a class="repo-link" href="https://github.com/jeremymwood/250720-kanban-site" target="_blank" rel="noreferrer">
+          View Source
+        </a>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <p class="eyebrow">Full-Stack Portfolio Project</p>
+        <h2>Role-aware Kanban workflows with production-minded engineering.</h2>
+        <p>
+          Ishi demonstrates end-to-end product ownership: React + TypeScript frontend, Express + Prisma backend, PostgreSQL data model,
+          role-based permissions, email verification, and hardened auth/session controls.
+        </p>
+      </section>
+
+      <section class="grid two-up">
+        <article class="panel">
+          <h3>Key Highlights</h3>
+          <ul>
+            <li>Admin / Developer / Client role model with policy-enforced behavior.</li>
+            <li>Kanban board with status lanes, drag-and-drop, and modal-first issue workflows.</li>
+            <li>JWT auth with refresh token rotation, activation gates, and email verification.</li>
+            <li>Security hardening: CORS allowlist, Helmet, rate limits, input validation.</li>
+            <li>Operational reliability: health probes, request IDs, graceful shutdown handling.</li>
+          </ul>
+        </article>
+
+        <article class="panel">
+          <h3>Stack</h3>
+          <ul>
+            <li>Frontend: React, TypeScript, Vite</li>
+            <li>Backend: Node.js, Express, TypeScript</li>
+            <li>Database: PostgreSQL with Prisma ORM</li>
+            <li>Integrations: Twilio Verify, Cloudflare, Railway</li>
+          </ul>
+        </article>
+      </section>
+
+      <section class="panel">
+        <h3>Seed Demo Accounts (Hardcoded from current seed data)</h3>
+        <p class="muted">Shared seed password: <code>Password123</code></p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Role</th>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Email</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Admin</td><td>alex</td><td>Alex Mercer</td><td>alex@example.com</td></tr>
+              <tr><td>Developer</td><td>niko</td><td>Niko Alvarez</td><td>niko@example.com</td></tr>
+              <tr><td>Developer</td><td>priya</td><td>Priya Patel</td><td>priya@example.com</td></tr>
+              <tr><td>Developer</td><td>marcus</td><td>Marcus Reed</td><td>marcus@example.com</td></tr>
+              <tr><td>Client</td><td>claire</td><td>Claire Bennett</td><td>claire@example.com</td></tr>
+              <tr><td>Client</td><td>owen</td><td>Owen Brooks</td><td>owen@example.com</td></tr>
+              <tr><td>Client</td><td>maya</td><td>Maya Chen</td><td>maya@example.com</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h3 class="section-heading">Screenshots</h3>
+        <div class="grid shots">
+          <figure class="panel">
+            <img src="./docs/media/ishi-kanban-example-01.png" alt="Ishi board view" loading="lazy" />
+            <figcaption>Board overview</figcaption>
+          </figure>
+          <figure class="panel">
+            <img src="./docs/media/ishi-kanban-example-02.png" alt="Issue details modal" loading="lazy" />
+            <figcaption>Issue detail modal</figcaption>
+          </figure>
+          <figure class="panel">
+            <img src="./docs/media/ishi-kanban-example-03.png" alt="Issue comments and discussion thread" loading="lazy" />
+            <figcaption>Issue comments and collaboration</figcaption>
+          </figure>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container">
+        <p>Built by Jeremy Wood • Ishi Kanban Portfolio Project</p>
+      </div>
+    </footer>
+  </body>
+</html>
