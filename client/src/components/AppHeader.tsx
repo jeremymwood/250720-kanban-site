@@ -34,10 +34,7 @@ function AppHeader({
         />
       </a>
       <h3
-        style={{
-          margin: "auto 1rem auto auto",
-          padding: 0,
-        }}
+        className="header-greeting"
       >
         Welcome, {user.name}
       </h3>
@@ -93,7 +90,7 @@ function AppHeader({
         </button>
       </div>
 
-      <div style={{ margin: "auto 0" }}>
+      <div className="header-logout">
         <button type="button" id="button-logout" className="button-pill" onClick={onLogout}>
           Log Out
         </button>

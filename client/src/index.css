@@ -168,6 +168,15 @@ button:focus-visible {
   gap: 1rem;
 }
 
+.header-greeting {
+  margin: auto 1rem auto auto;
+  padding: 0;
+}
+
+.header-logout {
+  margin: auto 0;
+}
+
 .app-footer {
   position: sticky;
   bottom: 0;
@@ -1274,15 +1283,49 @@ textarea:disabled {
   .app-container {
     padding: 0 2rem;
   }
+
+  .account-fields,
+  .settings-user-fields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .settings-user-controls {
+    justify-content: flex-end;
+  }
 }
 
 @media (max-width: 760px) {
   .app-container {
-    padding: 0 0.75rem;
+    padding: 0 0.5rem;
   }
 
   .app-header {
     flex-wrap: wrap;
+    gap: 0.5rem 0.75rem;
+    margin-bottom: 0.75rem;
+    padding-top: 0.35rem;
+    padding-bottom: 0.35rem;
+  }
+
+  .app-brand img {
+    height: 28px;
+  }
+
+  .header-greeting {
+    order: 2;
+    width: 100%;
+    margin: 0;
+    font-size: 0.95rem;
+  }
+
+  .header-search {
+    order: 3;
+    margin-left: 0;
+  }
+
+  .header-logout {
+    order: 1;
+    margin-left: auto;
   }
 
   .header-row,
@@ -1291,11 +1334,107 @@ textarea:disabled {
     grid-template-columns: minmax(180px, 1fr) repeat(5, minmax(160px, 1fr));
   }
 
+  .header-row {
+    padding-bottom: 0.5rem;
+  }
+
+  .project-cell,
+  .issue-cell {
+    padding: 0.45rem;
+  }
+
+  .board-scroll.has-scrollbar {
+    width: 100%;
+    margin-right: 0;
+    padding-right: 0;
+  }
+
+  .issue-detail-actions,
+  .account-actions,
+  .settings-actions,
+  .utilities-actions {
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .modal-card,
+  .modal-card-expanded,
+  .modal-settings {
+    width: min(700px, calc(100vw - 1rem));
+  }
+
+  .modal-settings {
+    padding: 1rem;
+  }
+
+  .auth-form input {
+    width: 100%;
+    max-width: 225px;
+  }
+
+  .app-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.35rem 0.75rem;
+    padding-top: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .footer-divider {
+    flex-basis: 100%;
+  }
+
+  .footer-group {
+    padding-left: 0;
+  }
+
+  .email-container a {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
+  .account-fields,
+  .settings-user-fields {
+    grid-template-columns: 1fr;
+    gap: 0.6rem;
+    padding-bottom: 0.75rem;
+  }
+
+  .settings-user-headings {
+    display: none;
+  }
+
+  .settings-users {
+    max-height: 45vh;
+  }
+
   .modal-card {
     min-width: 0;
   }
 
   .issue-detail-fields .issue-detail-row {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .app-container {
+    padding: 0 0.35rem;
+  }
+
+  .header-search .search-wrap {
+    width: min(62vw, 220px);
+  }
+
+  .modal-overlay {
+    padding: 0.5rem;
+  }
+
+  .modal-card,
+  .modal-settings,
+  .modal-card-expanded {
+    width: calc(100vw - 0.75rem);
+    padding: 0.85rem;
   }
 }
