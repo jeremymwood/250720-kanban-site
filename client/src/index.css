@@ -136,6 +136,49 @@ button:focus-visible {
   color: var(--green);
 }
 
+.board-grid-mobile {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+
+.project-cell-mobile {
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.project-cell-mobile strong {
+  font-size: 1rem;
+}
+
+.modal-mobile-project {
+  width: min(700px, calc(100vw - 1rem));
+  max-height: 85vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-mobile-project-description {
+  margin: 0 0 0.75rem;
+}
+
+.mobile-project-issues {
+  overflow: auto;
+  min-height: 0;
+  padding-right: 0.25rem;
+}
+
+.mobile-status-section + .mobile-status-section {
+  margin-top: 1rem;
+}
+
+.mobile-status-title {
+  margin: 0 0 0.5rem;
+  font-size: 0.95rem;
+}
+
 .board-empty-state {
   border: 2px solid var(--green-dim);
   border-radius: 1rem;
@@ -1306,6 +1349,10 @@ textarea:disabled {
 }
 
 @media (max-width: 760px) {
+  :root {
+    font-size: 17px;
+  }
+
   .app-container {
     padding: 0 0.5rem;
   }
@@ -1346,12 +1393,25 @@ textarea:disabled {
   }
 
   .header-row {
-    padding-bottom: 0.5rem;
+    display: none;
   }
 
   .project-cell,
   .issue-cell {
     padding: 0.45rem;
+  }
+
+  .project-cell p,
+  .issue-card,
+  .assignee,
+  .issue-cell-empty {
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  .project-owner small,
+  .project-owner-email small {
+    font-size: 0.9rem;
   }
 
   .board-scroll.has-scrollbar {
@@ -1420,6 +1480,10 @@ textarea:disabled {
     max-height: 45vh;
   }
 
+  .modal-mobile-project {
+    width: calc(100vw - 1rem);
+  }
+
   .modal-card {
     min-width: 0;
   }
@@ -1447,5 +1511,13 @@ textarea:disabled {
   .modal-card-expanded {
     width: calc(100vw - 0.75rem);
     padding: 0.85rem;
+  }
+
+  .board-grid-mobile {
+    gap: 0.5rem;
+  }
+
+  .project-cell-mobile strong {
+    font-size: 0.95rem;
   }
 }

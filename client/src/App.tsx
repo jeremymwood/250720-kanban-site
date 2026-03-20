@@ -906,11 +906,11 @@ function App() {
               </button>
             </div>
             <p style={{ margin: "0 0 0.75rem 0" }}>
-              This GitHub Pages experience is an interactive Ishi Kanban demo built for portfolio review.
+              This GitHub Pages experience is an interactive kKanban demo built for portfolio review.
               It runs in demo mode with seeded data to showcase UI and workflow behavior without a live backend.
             </p>
             <p style={{ margin: 0 }}>
-              Complete repository:
+              Repository:
               {" "}
               <a href="https://github.com/jeremymwood/250720-kanban-site" target="_blank" rel="noreferrer">
                 github.com/jeremymwood/250720-kanban-site
