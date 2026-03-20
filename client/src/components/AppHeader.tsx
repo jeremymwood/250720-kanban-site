@@ -16,19 +16,20 @@ function AppHeader({
   setSearchTerm,
   onLogout,
 }: AppHeaderProps) {
+  const baseUrl = import.meta.env.BASE_URL;
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   return (
     <div className="app-header">
       <a
         className="app-brand"
-        href="/"
+        href={baseUrl}
         onMouseEnter={() => setIsLogoHovered(true)}
         onMouseLeave={() => setIsLogoHovered(false)}
         onMouseUp={() => setIsLogoHovered(false)}
       >
         <img
-          src={isLogoHovered ? "/ishi-logo-green.svg" : "/ishi-logo-dark.svg"}
+          src={`${baseUrl}${isLogoHovered ? "ishi-logo-green.svg" : "ishi-logo-dark.svg"}`}
           alt="Ishi"
         />
       </a>
