@@ -8,16 +8,17 @@ type LoginProps = {
 };
 
 export default function Login({ onLogin }: LoginProps) {
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === "true";
   const [isRegistering, setIsRegistering] = useState(false);
   const [name, setName] = useState("");
   const [username, setUsername] = useState(
-    import.meta.env.DEV ? "alex" : ""
+    import.meta.env.DEV || isDemoMode ? "alex" : ""
   );
   const [email, setEmail] = useState(
-    import.meta.env.DEV ? "alex@example.com" : ""
+    import.meta.env.DEV || isDemoMode ? "alex@example.com" : ""
   );
   const [password, setPassword] = useState(
-    import.meta.env.DEV ? "Password123" : ""
+    import.meta.env.DEV || isDemoMode ? "Password123" : ""
   );
   const [loading, setLoading] = useState(false);
   const [awaitingVerification, setAwaitingVerification] = useState(false);

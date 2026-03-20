@@ -3,6 +3,19 @@
 Ishi Kanban is a full-stack task management application built to demonstrate production-style engineering across frontend, backend, data, auth, and security.  
 It supports role-aware workflows for admins, developers, and clients, with guarded CRUD behavior and polished modal-driven UX.
 
+## Live Portfolio Demo (GitHub Pages)
+
+- Interactive frontend demo: https://jeremymwood.github.io/250720-kanban-site/
+- Runs in `VITE_DEMO_MODE=true` with seeded in-browser data (no backend dependency on Pages).
+- Demo data persists in browser `localStorage` and resets if local storage is cleared.
+
+### Demo Credentials
+
+- Shared demo password: `Password123`
+- Admin: `alex`
+- Developers: `niko`, `priya`, `marcus`
+- Clients: `claire`, `owen`, `maya`
+
 ## 30-Second Overview
 
 - Built and shipped a full-stack Kanban platform with role-enforced workflows for Admin, Developer, and Client users.
