@@ -1,0 +1,243 @@
+#curl login
+$response = Invoke-WebRequest -Uri "http://localhost:4000/api/auth/login" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"email": "alex@example.com","password": "Password123"}'
+
+$response.Content
+
+#returns
+{"token":"<ACCESS_TOKEN>","user":{"id":"4f2b2d96-4d06-4bb7-9203-e670c60af994","email":"alex@example.com","password":"<HASHED_PASSWORD>","name":"AlexMercer","createdAt":"2025-09-01T15:37:13.570Z","updatedAt":"2025-09-01T15:37:13.570Z"}}
+
+#curl register
+$response = Invoke-WebRequest -Uri "http://localhost:4000/api/auth/register" `
+  -Method Post `
+  -ContentType "application/json" `
+  -Body '{"email": "jane@example.com","password": "Password123"}'
+
+$response.Content
+
+#returns
+
+#curl user index
+$response = Invoke-RestMethod `
+  -Uri "http://localhost:4000/api/users" `
+  -Method Get `
+  -Headers @{ Authorization = "Bearer <ACCESS_TOKEN>" }
+
+# Pretty-print the full response
+$response | ConvertTo-Json -Depth 5
+
+#returns
+[
+    {
+        "id":  "5713bd4c-516d-4d8a-81da-e336db6abd76",
+        "name":  "SleeveMcDichael",
+        "email":  "sleeve@example.com"
+    },
+    {
+        "id":  "55b7c81f-edc6-496a-b518-9818c09b5672",
+        "name":  "BobsonDugnutt",
+        "email":  "bobson@example.com"
+    },
+    {
+        "id":  "f1a5a9dc-8ca8-468f-aca7-a90f6bd428ce",
+        "name":  "OnsonSweemy",
+        "email":  "onson@example.com"
+    },
+    {
+        "id":  "4f2b2d96-4d06-4bb7-9203-e670c60af994",
+        "name":  "AlexMercer",
+        "email":  "alex@example.com"
+    }
+]
+
+#curl project index
+#was trying to access as sleeve
+#owned by alex, isues are assigned to other
+#projects owned by alex
+$response = Invoke-RestMethod `
+  -Uri "http://localhost:4000/api/projects" `
+  -Method Get `
+  -Headers @{ Authorization = "Bearer <ACCESS_TOKEN>" }
+
+# Pretty-print the full response
+$response | ConvertTo-Json -Depth 5
+
+#returns
+[
+    {
+        "id":  "fa4b8a4a-f12d-4aee-96a5-c094d63dfc36",
+        "name":  "Project Tracker",
+        "description":  "A project management tool",
+        "createdAt":  "2025-09-01T15:37:13.683Z",
+        "updatedAt":  "2025-09-01T15:37:13.683Z",
+        "ownerId":  "4f2b2d96-4d06-4bb7-9203-e670c60af994"
+    },
+    {
+        "id":  "70f3dd9e-133c-47c0-afdd-0e6af5d057dd",
+        "name":  "Marketing Site",
+        "description":  "Landing page redesign",
+        "createdAt":  "2025-09-01T15:37:13.943Z",
+        "updatedAt":  "2025-09-01T15:37:13.943Z",
+        "ownerId":  "4f2b2d96-4d06-4bb7-9203-e670c60af994"
+    },
+    {
+        "id":  "4f014c1e-5e1f-4b77-bbc2-cbe60425304e",
+        "name":  "Internal API",
+        "description":  "Secure REST API",
+        "createdAt":  "2025-09-01T15:37:14.074Z",
+        "updatedAt":  "2025-09-01T15:37:14.074Z",
+        "ownerId":  "4f2b2d96-4d06-4bb7-9203-e670c60af994"
+    }
+]
+
+#curl issue index
+$response = Invoke-RestMethod `
+  -Uri "http://localhost:4000/api/issues/project/fa4b8a4a-f12d-4aee-96a5-c094d63dfc36" `
+  -Method Get `
+  -Headers @{ Authorization = "Bearer <ACCESS_TOKEN>" }
+
+# Pretty-print the full response
+$response | ConvertTo-Json -Depth 5
+
+#returns issue, project and user
+[
+  {
+    "id": "d93b8672-d9b7-431a-990b-26c54255b951",
+    "title": "Set up backend",
+    "description": "Initialize Node + Prisma + Express",
+    "status": "TODO",
+    "priority": "MEDIUM",
+    "createdAt": "2025-08-31T19:28:21.840Z",
+    "updatedAt": "2025-08-31T19:28:21.840Z",
+    "projectId": "90e44771-5986-4acf-a0f9-40890795772c",
+    "assigneeId": "2b82e755-ce37-4628-8929-41317faa3f7f",
+    "assignee": {
+      "id": "2b82e755-ce37-4628-8929-41317faa3f7f",
+      "email": "alex@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "AlexMercer",
+      "createdAt": "2025-08-31T19:28:20.413Z",
+      "updatedAt": "2025-08-31T19:28:20.413Z"
+    },
+    "project": {
+      "id": "90e44771-5986-4acf-a0f9-40890795772c",
+      "name": "Internal API",
+      "description": "Secure REST API",
+      "createdAt": "2025-08-31T19:28:20.889Z",
+      "updatedAt": "2025-08-31T19:28:20.889Z",
+      "ownerId": "2b82e755-ce37-4628-8929-41317faa3f7f"
+    }
+  },
+  {
+    "id": "6e7b876b-c9b4-48c8-86e0-f6f7abab7f46",
+    "title": "Configure CI/CD",
+    "description": "Deployment pipelines",
+    "status": "TODO",
+    "priority": "MEDIUM",
+    "createdAt": "2025-08-31T19:28:21.840Z",
+    "updatedAt": "2025-08-31T19:28:21.840Z",
+    "projectId": "90e44771-5986-4acf-a0f9-40890795772c",
+    "assigneeId": "2b82e755-ce37-4628-8929-41317faa3f7f",
+    "assignee": {
+      "id": "2b82e755-ce37-4628-8929-41317faa3f7f",
+      "email": "alex@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "AlexMercer",
+      "createdAt": "2025-08-31T19:28:20.413Z",
+      "updatedAt": "2025-08-31T19:28:20.413Z"
+    },
+    "project": {
+      "id": "90e44771-5986-4acf-a0f9-40890795772c",
+      "name": "Internal API",
+      "description": "Secure REST API",
+      "createdAt": "2025-08-31T19:28:20.889Z",
+      "updatedAt": "2025-08-31T19:28:20.889Z",
+      "ownerId": "2b82e755-ce37-4628-8929-41317faa3f7f"
+    }
+  },
+  {
+    "id": "8d32a58a-e18b-47ac-9a26-ac40ae7bb1d1",
+    "title": "Build frontend",
+    "description": "Set up React + Tailwind",
+    "status": "IN_PROGRESS",
+    "priority": "MEDIUM",
+    "createdAt": "2025-08-31T19:28:21.840Z",
+    "updatedAt": "2025-08-31T19:28:21.840Z",
+    "projectId": "90e44771-5986-4acf-a0f9-40890795772c",
+    "assigneeId": "d5e1c795-5e2e-4d08-ac85-7f4d1e1eecec",
+    "assignee": {
+      "id": "d5e1c795-5e2e-4d08-ac85-7f4d1e1eecec",
+      "email": "sleeve@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "SleeveMcDichael",
+      "createdAt": "2025-08-31T19:28:19.901Z",
+      "updatedAt": "2025-08-31T19:28:19.901Z"
+    },
+    "project": {
+      "id": "90e44771-5986-4acf-a0f9-40890795772c",
+      "name": "Internal API",
+      "description": "Secure REST API",
+      "createdAt": "2025-08-31T19:28:20.889Z",
+      "updatedAt": "2025-08-31T19:28:20.889Z",
+      "ownerId": "2b82e755-ce37-4628-8929-41317faa3f7f"
+    }
+  },
+  {
+    "id": "f9d1bf11-b0cb-4615-9e01-c9f4385d1499",
+    "title": "Write API docs",
+    "description": "Document endpoints and auth",
+    "status": "TODO",
+    "priority": "MEDIUM",
+    "createdAt": "2025-08-31T19:28:21.840Z",
+    "updatedAt": "2025-08-31T19:28:21.840Z",
+    "projectId": "90e44771-5986-4acf-a0f9-40890795772c",
+    "assigneeId": "03be987d-a7df-43e9-bb5f-05d7303060bf",
+    "assignee": {
+      "id": "03be987d-a7df-43e9-bb5f-05d7303060bf",
+      "email": "bobson@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "BobsonDugnutt",
+      "createdAt": "2025-08-31T19:28:20.160Z",
+      "updatedAt": "2025-08-31T19:28:20.160Z"
+    },
+    "project": {
+      "id": "90e44771-5986-4acf-a0f9-40890795772c",
+      "name": "Internal API",
+      "description": "Secure REST API",
+      "createdAt": "2025-08-31T19:28:20.889Z",
+      "updatedAt": "2025-08-31T19:28:20.889Z",
+      "ownerId": "2b82e755-ce37-4628-8929-41317faa3f7f"
+    }
+  },
+  {
+    "id": "29bc7c24-8ee4-433c-8529-02bd9f8c7d56",
+    "title": "Polish UI",
+    "description": "Improve UX and mobile responsiveness",
+    "status": "DONE",
+    "priority": "MEDIUM",
+    "createdAt": "2025-08-31T19:28:21.840Z",
+    "updatedAt": "2025-08-31T19:28:21.840Z",
+    "projectId": "90e44771-5986-4acf-a0f9-40890795772c",
+    "assigneeId": "8ba5cef2-4c25-42b9-950d-8bbb5177aa05",
+    "assignee": {
+      "id": "8ba5cef2-4c25-42b9-950d-8bbb5177aa05",
+      "email": "onson@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "OnsonSweemy",
+      "createdAt": "2025-08-31T19:28:20.293Z",
+      "updatedAt": "2025-08-31T19:28:20.293Z"
+    },
+    "project": {
+      "id": "90e44771-5986-4acf-a0f9-40890795772c",
+      "name": "Internal API",
+      "description": "Secure REST API",
+      "createdAt": "2025-08-31T19:28:20.889Z",
+      "updatedAt": "2025-08-31T19:28:20.889Z",
+      "ownerId": "2b82e755-ce37-4628-8929-41317faa3f7f"
+    }
+  }
+]% 
+
+

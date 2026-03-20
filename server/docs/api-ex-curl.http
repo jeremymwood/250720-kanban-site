@@ -1,0 +1,232 @@
+#curl login
+curl -X POST http://localhost:4000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{
+  "email": "alex@example.com",
+  "password": "Password123"
+}'
+
+#returns
+{
+  "token": "<ACCESS_TOKEN>",
+  "user": {
+    "id": "56d91645-559d-4bce-b4c1-689d5e039216",
+    "email": "alex@example.com",
+    "password": "<HASHED_PASSWORD>",
+    "name": "AlexMercer",
+    "createdAt": "2025-09-01T23:48:38.398Z",
+    "updatedAt": "2025-09-01T23:48:38.398Z"
+  }
+}%     
+
+#curl user index
+curl -X GET http://localhost:4000/api/users \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+
+#returns
+[
+  {
+    "id": "73bc431c-95eb-4997-b8d0-8c61c9f8be1a",
+    "name": "SleeveMcDichael",
+    "email": "sleeve@example.com"
+  },
+  {
+    "id": "81b66cf2-afa8-454c-9a53-abdf24f75ff9",
+    "name": "BobsonDugnutt",
+    "email": "bobson@example.com"
+  },
+  {
+    "id": "7ce63d42-a412-42a0-b573-fd048df95a10",
+    "name": "OnsonSweemy",
+    "email": "onson@example.com"
+  },
+  {
+    "id": "56d91645-559d-4bce-b4c1-689d5e039216",
+    "name": "AlexMercer",
+    "email": "alex@example.com"
+  }
+]%
+
+#curl project index
+#was trying to access as sleeve
+#owned by alex, isues are assigned to other
+#projects owned by alex
+curl -X GET http://localhost:4000/api/projects \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+
+#returns
+[
+  {
+    "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "name": "Project Tracker",
+    "description": "A project management tool",
+    "createdAt": "2025-09-01T23:48:38.515Z",
+    "updatedAt": "2025-09-01T23:48:38.515Z",
+    "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+  },
+  {
+    "id": "a4dfdefc-457a-4387-bd34-9d0649a417fd",
+    "name": "Marketing Site",
+    "description": "Landing page redesign",
+    "createdAt": "2025-09-01T23:48:38.736Z",
+    "updatedAt": "2025-09-01T23:48:38.736Z",
+    "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+  },
+  {
+    "id": "b5bcfc13-d3f1-4ca6-8af8-5c2b649dc76e",
+    "name": "Internal API",
+    "description": "Secure REST API",
+    "createdAt": "2025-09-01T23:48:38.848Z",
+    "updatedAt": "2025-09-01T23:48:38.848Z",
+    "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+  }
+]%
+
+#curl issue index
+curl -X GET http://localhost:4000/api/issues/project/bca7439c-6969-4f5d-b915-caa81ff2df82 \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+
+#returns issue, project and user
+[
+  {
+    "id": "af60a2e7-47a9-4808-9ba2-d8b1f2a26b28",
+    "title": "Set up backend",
+    "description": "Initialize Node + Prisma + Express",
+    "status": "NEW",
+    "priority": "URGENT",
+    "projectId": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "assigneeId": "56d91645-559d-4bce-b4c1-689d5e039216",
+    "createdAt": "2025-09-01T23:48:38.969Z",
+    "updatedAt": "2025-09-01T23:48:38.969Z",
+    "assignee": {
+      "id": "56d91645-559d-4bce-b4c1-689d5e039216",
+      "email": "alex@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "AlexMercer",
+      "createdAt": "2025-09-01T23:48:38.398Z",
+      "updatedAt": "2025-09-01T23:48:38.398Z"
+    },
+    "project": {
+      "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+      "name": "Project Tracker",
+      "description": "A project management tool",
+      "createdAt": "2025-09-01T23:48:38.515Z",
+      "updatedAt": "2025-09-01T23:48:38.515Z",
+      "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+    }
+  },
+  {
+    "id": "469037f0-e5fe-47c8-95af-a8ed7a49e6b2",
+    "title": "Configure CI/CD",
+    "description": "Deployment pipelines",
+    "status": "COMMITTED",
+    "priority": "HIGH",
+    "projectId": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "assigneeId": "56d91645-559d-4bce-b4c1-689d5e039216",
+    "createdAt": "2025-09-01T23:48:39.200Z",
+    "updatedAt": "2025-09-01T23:48:39.200Z",
+    "assignee": {
+      "id": "56d91645-559d-4bce-b4c1-689d5e039216",
+      "email": "alex@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "AlexMercer",
+      "createdAt": "2025-09-01T23:48:38.398Z",
+      "updatedAt": "2025-09-01T23:48:38.398Z"
+    },
+    "project": {
+      "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+      "name": "Project Tracker",
+      "description": "A project management tool",
+      "createdAt": "2025-09-01T23:48:38.515Z",
+      "updatedAt": "2025-09-01T23:48:38.515Z",
+      "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+    }
+  },
+  {
+    "id": "8a911ed6-a736-4f72-841c-37e7c09763ec",
+    "title": "Build frontend",
+    "description": "Set up React + Tailwind",
+    "status": "IN_PROGRESS",
+    "priority": "MEDIUM",
+    "projectId": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "assigneeId": "73bc431c-95eb-4997-b8d0-8c61c9f8be1a",
+    "createdAt": "2025-09-01T23:48:39.314Z",
+    "updatedAt": "2025-09-01T23:48:39.314Z",
+    "assignee": {
+      "id": "73bc431c-95eb-4997-b8d0-8c61c9f8be1a",
+      "email": "sleeve@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "SleeveMcDichael",
+      "createdAt": "2025-09-01T23:48:37.933Z",
+      "updatedAt": "2025-09-01T23:48:37.933Z"
+    },
+    "project": {
+      "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+      "name": "Project Tracker",
+      "description": "A project management tool",
+      "createdAt": "2025-09-01T23:48:38.515Z",
+      "updatedAt": "2025-09-01T23:48:38.515Z",
+      "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+    }
+  },
+  {
+    "id": "499c88a7-d23d-4228-a0f2-cb25b2a09ecf",
+    "title": "Write API docs",
+    "description": "Document endpoints and auth",
+    "status": "QA",
+    "priority": "LOW",
+    "projectId": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "assigneeId": "81b66cf2-afa8-454c-9a53-abdf24f75ff9",
+    "createdAt": "2025-09-01T23:48:39.427Z",
+    "updatedAt": "2025-09-01T23:48:39.427Z",
+    "assignee": {
+      "id": "81b66cf2-afa8-454c-9a53-abdf24f75ff9",
+      "email": "bobson@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "BobsonDugnutt",
+      "createdAt": "2025-09-01T23:48:38.156Z",
+      "updatedAt": "2025-09-01T23:48:38.156Z"
+    },
+    "project": {
+      "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+      "name": "Project Tracker",
+      "description": "A project management tool",
+      "createdAt": "2025-09-01T23:48:38.515Z",
+      "updatedAt": "2025-09-01T23:48:38.515Z",
+      "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+    }
+  },
+  {
+    "id": "37b62a5a-6fcc-49ca-9f63-04285db47536",
+    "title": "Polish UI",
+    "description": "Improve UX and mobile responsiveness",
+    "status": "DONE",
+    "priority": "LOW",
+    "projectId": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+    "assigneeId": "7ce63d42-a412-42a0-b573-fd048df95a10",
+    "createdAt": "2025-09-01T23:48:39.540Z",
+    "updatedAt": "2025-09-01T23:48:39.540Z",
+    "assignee": {
+      "id": "7ce63d42-a412-42a0-b573-fd048df95a10",
+      "email": "onson@example.com",
+      "password": "<HASHED_PASSWORD>",
+      "name": "OnsonSweemy",
+      "createdAt": "2025-09-01T23:48:38.270Z",
+      "updatedAt": "2025-09-01T23:48:38.270Z"
+    },
+    "project": {
+      "id": "bca7439c-6969-4f5d-b915-caa81ff2df82",
+      "name": "Project Tracker",
+      "description": "A project management tool",
+      "createdAt": "2025-09-01T23:48:38.515Z",
+      "updatedAt": "2025-09-01T23:48:38.515Z",
+      "ownerId": "56d91645-559d-4bce-b4c1-689d5e039216"
+    }
+  }
+]%
+
+#curl log user out
+curl -X GET http://localhost:4000/api/auth/logout \
+  -H "Authorization: Bearer <ACCESS_TOKEN>"
+
+

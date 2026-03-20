@@ -1,0 +1,110 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String    @id @default(uuid())
+  username  String    @unique
+  email     String
+  password  String
+  name      String
+  emailVerified Boolean @default(false)
+  active    Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  // Relationships
+  projects        Project[]       @relation("OwnedProjects")
+  assignedIssues  Issue[]         @relation("AssignedIssues")
+  projectMembers  ProjectMember[]
+  refreshTokens   RefreshToken[]
+  role            Role            @default(DEVELOPER)
+
+  @@index([email])
+  @@index([role, active])
+}
+
+enum Role {
+  ADMIN
+  DEVELOPER
+  CLIENT
+}
+
+model Project {
+  id          String         @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  ownerId     String
+  owner       User           @relation("OwnedProjects", fields: [ownerId], references: [id])
+  issues      Issue[]
+  members     ProjectMember[]
+
+  @@index([ownerId])
+  @@index([createdAt])
+}
+
+model ProjectMember {
+  id        String   @id @default(uuid())
+  userId    String
+  projectId String
+
+  user      User     @relation(fields: [userId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, projectId]) // prevent duplicate memberships
+}
+
+enum IssueStatus {
+  NEW
+  COMMITTED
+  IN_PROGRESS
+  QA
+  DONE
+}
+
+enum IssuePriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model Issue {
+  id          String         @id @default(uuid())
+  title       String
+  description String
+  status      IssueStatus    @default(NEW)
+  priority    IssuePriority  @default(LOW)
+  project     Project        @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId   String
+  assignee    User?          @relation("AssignedIssues", fields: [assigneeId], references: [id])
+  assigneeId  String?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+
+  @@index([projectId, status])
+  @@index([projectId, priority])
+  @@index([assigneeId])
+  @@index([createdAt])
+}
+
+model RefreshToken {
+  id        String   @id @default(uuid())
+  tokenHash String   @unique
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  expiresAt DateTime
+  revokedAt DateTime?
+
+  @@index([userId])
+  @@index([userId, revokedAt])
+  @@index([expiresAt])
+}

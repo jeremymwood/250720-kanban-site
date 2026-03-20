@@ -1,0 +1,10 @@
+# deploy railway
+# cd server
+# npm run dev
+# Nav to http://localhost:4000/
+# open another terminal, cd client
+# npm run dev
+# Nav to http://localhost:5173/
+
+# Stop server
+# Control + c

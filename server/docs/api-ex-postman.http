@@ -1,0 +1,84 @@
+#login:
+
+POST http://localhost:4000/api/auth/login
+#with raw json:
+{
+  "email": "sleeve@example.com",
+  "password": "Password123"
+}
+
+#returns
+{
+    "token": "<ACCESS_TOKEN>",
+    "user": {
+        "id": "6ad44ee7-4ee0-407c-8f85-c0c34f0be44b",
+        "email": "sleeve@example.com",
+        "password": "<HASHED_PASSWORD>",
+        "name": "SleeveMcDichael",
+        "createdAt": "2025-08-31T03:10:14.224Z",
+        "updatedAt": "2025-08-31T03:10:14.224Z"
+    }
+}
+
+__
+POST http://localhost:4000/api/auth/register
+{
+  "name": "New User",
+  "email": "newuser@example.com",
+  "password": "Password123"
+}
+
+#returns
+{
+    "token": "<ACCESS_TOKEN>",
+    "user": {
+        "id": "0693a02c-db6a-4cc2-b75b-9e04233fad4c",
+        "email": "newuser@example.com",
+        "password": "<HASHED_PASSWORD>",
+        "name": "New User",
+        "createdAt": "2025-08-31T03:17:20.824Z",
+        "updatedAt": "2025-08-31T03:17:20.824Z"
+    }
+}
+
+login
+POST http://localhost:4000/api/auth/login with raw json:
+{
+  "email": "newuser@example.com",
+  "password": "Password123"
+}
+
+#user index
+GET http://localhost:4000/api/users
+Header: Bearer <ACCESS_TOKEN>
+
+#returns
+[
+    {
+        "id": "6ad44ee7-4ee0-407c-8f85-c0c34f0be44b",
+        "name": "SleeveMcDichael",
+        "email": "sleeve@example.com"
+    },
+    {
+        "id": "856e30bd-a7cf-424d-b234-b177d6ddff78",
+        "name": "BobsonDugnutt",
+        "email": "bobson@example.com"
+    },
+    {
+        "id": "ba3111ba-6677-4a12-a2a1-bc39c02ad035",
+        "name": "OnsonSweemy",
+        "email": "onson@example.com"
+    },
+    {
+        "id": "c36b3b2b-d2ec-4eee-9a28-7449c7e71784",
+        "name": "AlexMercer",
+        "email": "alex@example.com"
+    },
+    {
+        "id": "0693a02c-db6a-4cc2-b75b-9e04233fad4c",
+        "name": "New User",
+        "email": "newuser@example.com"
+    }
+]
+
+
