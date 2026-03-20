@@ -3,6 +3,7 @@ import type { User } from "../types";
 
 type AppHeaderProps = {
   user: User;
+  onOpenAbout: () => void;
   onOpenSettings: () => void;
   searchTerm: string;
   setSearchTerm: (value: string) => void;
@@ -11,6 +12,7 @@ type AppHeaderProps = {
 
 function AppHeader({
   user,
+  onOpenAbout,
   onOpenSettings,
   searchTerm,
   setSearchTerm,
@@ -21,9 +23,11 @@ function AppHeader({
   const [showSearch, setShowSearch] = useState(false);
   return (
     <div className="app-header">
-      <a
+      <button
+        type="button"
         className="app-brand"
-        href={baseUrl}
+        onClick={onOpenAbout}
+        aria-label="About this demo"
         onMouseEnter={() => setIsLogoHovered(true)}
         onMouseLeave={() => setIsLogoHovered(false)}
         onMouseUp={() => setIsLogoHovered(false)}
@@ -32,7 +36,7 @@ function AppHeader({
           src={`${baseUrl}${isLogoHovered ? "ishi-logo-green.svg" : "ishi-logo-dark.svg"}`}
           alt="Ishi"
         />
-      </a>
+      </button>
       <h3
         className="header-greeting"
       >

@@ -38,6 +38,11 @@
   margin: 0 auto 0 0;
   display: inline-flex;
   align-items: center;
+  border: none;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 0;
 }
 
 .app-brand img {
@@ -166,6 +171,12 @@ button:focus-visible {
   margin: 0 0 1.5rem 0;
   background: black;
   gap: 1rem;
+}
+
+.app-brand:focus,
+.app-brand:focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 .header-greeting {

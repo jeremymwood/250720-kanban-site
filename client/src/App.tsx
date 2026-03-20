@@ -119,6 +119,7 @@ function App() {
   const [savingSettings, setSavingSettings] = useState(false);
   const [creatingProject, setCreatingProject] = useState(false);
   const [creatingIssueForProjectId, setCreatingIssueForProjectId] = useState<string | null>(null);
+  const [aboutModalOpen, setAboutModalOpen] = useState(false);
 
   const manageableUsers = users
     .filter((u) => u.id !== user?.id)
@@ -247,6 +248,7 @@ function App() {
       projectModalOpen ||
       utilitiesModalOpen ||
       settingsModalOpen ||
+      aboutModalOpen ||
       Boolean(issueDetail) ||
       errorModal.open ||
       confirmState.open;
@@ -259,6 +261,7 @@ function App() {
       if (issueDetail) closeIssueDetail();
       if (utilitiesModalOpen) cancelUtilitiesModal();
       if (settingsModalOpen) closeSettingsModal();
+      if (aboutModalOpen) closeAboutModal();
       if (issueModalProjectId) closeIssueModal();
       if (projectModalOpen) closeProjectModal();
     };
@@ -270,6 +273,7 @@ function App() {
     projectModalOpen,
     utilitiesModalOpen,
     settingsModalOpen,
+    aboutModalOpen,
     issueDetail,
     errorModal.open,
     confirmState.open,
@@ -591,6 +595,14 @@ function App() {
     setSettingsModalOpen(false);
   }
 
+  function openAboutModal() {
+    setAboutModalOpen(true);
+  }
+
+  function closeAboutModal() {
+    setAboutModalOpen(false);
+  }
+
   async function saveSettings() {
     if (!token || !user) return;
     setSavingSettings(true);
@@ -802,6 +814,7 @@ function App() {
       {/* header container */}
       <AppHeader
         user={user}
+        onOpenAbout={openAboutModal}
         onOpenSettings={openSettingsModal}
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
@@ -879,6 +892,33 @@ function App() {
       </div>
 
       <AppFooter />
+
+      {aboutModalOpen && (
+        <div
+          onClick={closeAboutModal}
+          className="modal-overlay modal-overlay-confirm"
+        >
+          <div className="modal-card" onClick={(e) => e.stopPropagation()} role="dialog" aria-modal="true" aria-label="About this site">
+            <div className="modal-delete-header">
+              <h2 style={{ margin: 0 }}>About This Site</h2>
+              <button type="button" onClick={closeAboutModal} className="modal-delete-close">
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+            <p style={{ margin: "0 0 0.75rem 0" }}>
+              This GitHub Pages experience is an interactive Ishi Kanban demo built for portfolio review.
+              It runs in demo mode with seeded data to showcase UI and workflow behavior without a live backend.
+            </p>
+            <p style={{ margin: 0 }}>
+              Complete repository:
+              {" "}
+              <a href="https://github.com/jeremymwood/250720-kanban-site" target="_blank" rel="noreferrer">
+                github.com/jeremymwood/250720-kanban-site
+              </a>
+            </p>
+          </div>
+        </div>
+      )}
 
       {settingsModalOpen && (
         <div
