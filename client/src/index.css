@@ -64,19 +64,26 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
-  place-items: center;
+  display: block;
   min-width: 320px;
-  min-height: 100vh;
+  min-height: 100dvh;
+  overflow: hidden;
+}
+
+html,
+#root {
+  height: 100%;
+  overflow: hidden;
 }
 
 #root {
   margin: 0 auto;
+  width: 100%;
 }
 
 .app-container {
   display: flex;
-  height: 100vh;
+  height: 100dvh;
   width: auto;
   flex-direction: column;
   padding: 0 10rem;
@@ -289,7 +296,7 @@ button:focus-visible {
   background: var(--green);
 }
 
-.header-row, .project-row, .app-footer {
+.header-row, .project-row {
   display: grid;
   grid-template-columns: 1fr repeat(5, 1fr);
   gap: 0.5rem;
@@ -1370,25 +1377,21 @@ textarea:disabled {
   }
 
   .header-greeting {
-    order: 2;
-    width: 100%;
+    width: auto;
     margin: 0;
     font-size: 0.95rem;
   }
 
   .header-search {
-    order: 3;
     margin-left: 0;
   }
 
   .header-logout {
-    order: 1;
     margin-left: auto;
   }
 
   .header-row,
-  .project-row,
-  .app-footer {
+  .project-row {
     grid-template-columns: minmax(180px, 1fr) repeat(5, minmax(160px, 1fr));
   }
 
@@ -1444,23 +1447,26 @@ textarea:disabled {
   }
 
   .app-footer {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.35rem 0.75rem;
-    padding-top: 0.6rem;
+    position: static;
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    gap: 0.3rem;
+    padding: 0.6rem 0 0.4rem;
     font-size: 0.85rem;
   }
 
   .footer-divider {
-    flex-basis: 100%;
+    width: 100%;
   }
 
   .footer-group {
+    justify-content: center;
     padding-left: 0;
   }
 
   .email-container a {
+    justify-content: center;
     max-width: 100%;
     overflow-wrap: anywhere;
   }
