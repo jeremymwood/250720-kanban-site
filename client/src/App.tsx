@@ -909,20 +909,6 @@ function App() {
               This GitHub Pages experience is an interactive kanban demo built for portfolio review.
               It runs in demo mode with seeded data to showcase UI and workflow behavior without a live backend.
             </p>
-            <p style={{ margin: "0 0 0.75rem 0" }}>
-              Current project:
-              {" "}
-              <a href="https://communityapp.online:8080" target="_blank" rel="noreferrer">
-                commUNITY
-              </a>
-              {" "}
-              - a social network focused on mental health where members follow community groups for curated
-              well-being content, share thoughts and experiences, connect with like-minded individuals, and
-              access mental health resources.
-            </p>
-            <p style={{ margin: "0 0 0.75rem 0" }}>
-              Environment: HTML, CSS, JavaScript, Bootstrap 4, Java, MySQL, Spring, Thymeleaf.
-            </p>
             <p style={{ margin: 0 }}>
               Repository:
               {" "}
