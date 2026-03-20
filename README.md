@@ -7,7 +7,7 @@ It supports role-aware workflows for admins, developers, and clients, with guard
 
 - Interactive frontend demo: https://jeremymwood.github.io/250720-kanban-site/
 - Runs in `VITE_DEMO_MODE=true` with seeded in-browser data (no backend dependency on Pages).
-- Demo data persists in browser `localStorage` and resets if local storage is cleared.
+- Demo data resets to the original seed set on each page refresh.
 
 ### Demo Credentials
 

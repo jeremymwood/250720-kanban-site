@@ -148,6 +148,12 @@ function writeDemoState(state: DemoState) {
   localStorage.setItem(DEMO_STATE_KEY, JSON.stringify(state));
 }
 
+export function resetDemoState() {
+  if (!DEMO_MODE) return;
+  const fresh = createInitialDemoState();
+  writeDemoState(fresh);
+}
+
 function nextId(prefix: string, existing: string[]) {
   let i = existing.length + 1;
   while (existing.includes(`${prefix}-${i}`)) i += 1;
@@ -602,4 +608,3 @@ export async function deleteIssue(issueId: string, token: string) {
   });
   if (!res.ok) throw new Error(await getApiErrorMessage(res, "Failed to delete issue"));
 }
-

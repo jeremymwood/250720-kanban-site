@@ -21,6 +21,7 @@ import {
   updateIssueDescription,
   deleteProject,
   deleteIssue,
+  resetDemoState,
   refreshSession,
   logoutSession
 } from "./lib/api";
@@ -130,6 +131,7 @@ function App() {
   // Load saved session
   useEffect(() => {
     if (isDemoMode) {
+      resetDemoState();
       setToken("demo-token");
       setUser({
         id: "u-admin",
