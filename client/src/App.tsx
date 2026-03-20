@@ -6,14 +6,14 @@ import Login from "./components/Login";
 import AppHeader from "./components/AppHeader";
 import AppFooter from "./components/AppFooter";
 import {
+  createProject,
   createIssue,
+  getUsers,
   getProjects,
   getIssuesForProject,
   updateUser,
   updateUserActive,
   deleteUser,
-  updateProjectOwner,
-  updateProjectName,
   updateIssueTitle,
   updateIssueAssignee,
   updateIssueStatus,
@@ -27,6 +27,7 @@ import {
 import type { ProjectWithIssues, Issue, User } from "../src/types";
 
 function App() {
+  const isDemoMode = import.meta.env.VITE_DEMO_MODE === "true";
   const [authInitializing, setAuthInitializing] = useState(true);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
@@ -35,7 +36,6 @@ function App() {
   const [projectsLoading, setProjectsLoading] = useState(false);
   const [issuesByProject, setIssuesByProject] = useState<Record<string, Issue[]>>({});
   const [settingsModalOpen, setSettingsModalOpen] = useState(false);
-  const [pendingDeleteUserId, setPendingDeleteUserId] = useState<string | null>(null);
   const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
   const [userEditDrafts, setUserEditDrafts] = useState<
     Record<string, { username: string; name: string; email: string; role: string; active: boolean }>
@@ -47,10 +47,6 @@ function App() {
     role: "",
   });
   const roleOptions = ["ADMIN", "DEVELOPER", "CLIENT"];
-  const [editingProjectId, setEditingProjectId] = useState<string | null>(null);
-  const [editedProjectName, setEditedProjectName] = useState("");
-  const [editingIssueId, setEditingIssueId] = useState<string | null>(null);
-  const [editedIssueTitle, setEditedIssueTitle] = useState("");
   const [confirmState, setConfirmState] = useState<{
     open: boolean;
     message: string;
@@ -133,6 +129,20 @@ function App() {
 
   // Load saved session
   useEffect(() => {
+    if (isDemoMode) {
+      setToken("demo-token");
+      setUser({
+        id: "u-admin",
+        username: "alex",
+        name: "Alex Mercer",
+        email: "alex@example.com",
+        role: "ADMIN",
+        active: true,
+      });
+      setAuthInitializing(false);
+      return;
+    }
+
     const lastActive = localStorage.getItem("lastActiveAt");
     const thirtyMinutesMs = 30 * 60 * 1000;
     const isExpired =
@@ -156,9 +166,10 @@ function App() {
         setAuthInitializing(false);
       }
     })();
-  }, []);
+  }, [isDemoMode]);
 
   useEffect(() => {
+    if (isDemoMode) return;
     if (!token) return;
 
     const updateActivity = () => {
@@ -183,7 +194,7 @@ function App() {
       events.forEach((event) => window.removeEventListener(event, updateActivity));
       window.clearInterval(interval);
     };
-  }, [token]);
+  }, [isDemoMode, token]);
 
   useEffect(() => {
     function updateScrollbarState() {
@@ -267,18 +278,7 @@ function App() {
   async function fetchUsers() {
     if (!token) return;
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) {
-        if (res.status === 403) {
-          console.warn("Not authorized to fetch users.");
-          setUsers([]);
-          return;
-        }
-        throw new Error(`HTTP ${res.status}`);
-      }
-      const data = await res.json();
+      const data = await getUsers(token);
       setUsers(data);
     } catch (err) {
       console.error("Failed to fetch users:", err);
@@ -537,7 +537,6 @@ function App() {
   function closeConfirmModal() {
     if (confirmingAction) return;
     setConfirmState({ open: false, message: "", onConfirm: null });
-    setPendingDeleteUserId(null);
   }
 
   function openErrorModal(title: string, message: string) {
@@ -655,11 +654,6 @@ function App() {
     }
   }
 
-  function cancelProjectEdit() {
-    setEditingProjectId(null);
-    setEditedProjectName("");
-  }
-
   function formatLabel(text: string) {
     return text
       //.toLowerCase()
@@ -674,148 +668,20 @@ function App() {
     return date.toLocaleString();
   }
 
-  async function saveProjectName(projectId: string) {
-    if (!token) return;
-
-    try {
-      const updated = await updateProjectName(projectId, editedProjectName, token);
-      setProjects((prev) =>
-        prev.map((proj) =>
-          proj.id === projectId ? { ...proj, name: updated.name } : proj
-        )
-      );
-      cancelProjectEdit();
-    } catch (err) {
-      console.error("Failed to update project:", err);
-      openErrorModal("Save Failed", "Could not update project name.");
-      cancelProjectEdit();
-    }
-  }
-
-  async function handleOwnerChange(projectId: string, ownerId: string) {
-  if (!token) return;
-
-  try {
-    const updated = await updateProjectOwner(projectId, ownerId, token);
-
-    setProjects((prev) =>
-      prev.map((proj) =>
-        proj.id === projectId
-          ? { ...proj, owner: updated.owner }
-          : proj
-      )
-    );
-  } catch (err) {
-    console.error("Failed to update owner:", err);
-    openErrorModal("Save Failed", "Could not update project owner.");
-  }
-}
-
-  function cancelIssueEdit() {
-    setEditingIssueId(null);
-    setEditedIssueTitle("");
-  }
-
-  async function saveIssueTitle(issueId: string, projectId: string) {
-    if (!token) return;
-
-    try {
-      const updated = await updateIssueTitle(issueId, editedIssueTitle, token);
-      setIssuesByProject((prev) => ({
-        ...prev,
-        [projectId]: prev[projectId].map((i) =>
-          i.id === issueId ? { ...i, title: updated.title } : i
-        ),
-      }));
-      cancelIssueEdit();
-    } catch (err) {
-      console.error("Failed to update issue:", err);
-      openErrorModal("Save Failed", "Could not update issue title.");
-      cancelIssueEdit();
-    }
-  }
-
-  async function handleStatusChange(issueId: string, status: string, projectId: string) {
-    if (!token) return;
-
-    try {
-      const updated = await updateIssueStatus(issueId, status, token);
-      setIssuesByProject((prev) => ({
-        ...prev,
-        [projectId]: prev[projectId].map((i) =>
-          i.id === issueId ? { ...i, status: updated.status } : i
-        ),
-      }));
-    } catch (err) {
-      console.error("Failed to update status:", err);
-      openErrorModal("Save Failed", "Error updating status.");
-    }
-  }
-
-  async function handlePriorityChange(issueId: string, priority: string, projectId: string) {
-    if (!token) return;
-
-    try {
-      const updated = await updateIssuePriority(issueId, priority, token);
-      setIssuesByProject((prev) => ({
-        ...prev,
-        [projectId]: prev[projectId].map((i) =>
-          i.id === issueId ? { ...i, priority: updated.priority } : i
-        ),
-      }));
-    } catch (err) {
-      console.error("Failed to update priority:", err);
-      openErrorModal("Save Failed", "Error updating priority.");
-    }
-  }
-
-  async function handleAssigneeChange(issueId: string, assigneeId: string | null, projectId: string) {
-    if (!token) return;
-
-    try {
-      const updated = await updateIssueAssignee(issueId, assigneeId, token);
-      setIssuesByProject((prev) => ({
-        ...prev,
-        [projectId]: prev[projectId].map((i) =>
-          i.id === issueId ? { ...i, assignee: updated.assignee } : i
-        ),
-      }));
-    } catch (err) {
-      console.error("Failed to update assignee:", err);
-      openErrorModal("Save Failed", "Could not update assignee.");
-    }
-  }
-
   async function handleCreateProject() {
-    if (!newProjectName.trim() || creatingProject) return;
+    if (!token || !newProjectName.trim() || creatingProject) return;
 
     setCreatingProject(true);
     try {
       setProjectModalOpen(false);
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/projects`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          name: newProjectName,
-          description: newProjectDescription,
-          ownerId: newProjectOwnerId || null,
-        }),
-      });
-
-      if (res.ok) {
-        // Instead of pushing to state, just refetch everything:
-        await fetchProjectsWithIssues();
-
-        // Clear form
-        setNewProjectName("");
-        setNewProjectDescription("");
-        setNewProjectOwnerId("");
-      } else {
-        openErrorModal("Create Failed", "Failed to create project.");
-      }
+      await createProject(newProjectName, newProjectDescription, newProjectOwnerId || null, token);
+      await fetchProjectsWithIssues();
+      setNewProjectName("");
+      setNewProjectDescription("");
+      setNewProjectOwnerId("");
+    } catch (err) {
+      console.error("Failed to create project:", err);
+      openErrorModal("Create Failed", "Failed to create project.");
     } finally {
       setCreatingProject(false);
     }
@@ -1293,7 +1159,6 @@ function App() {
                               (user.role === "DEVELOPER" && u.role !== "CLIENT")
                             }
                             onClick={() => {
-                              setPendingDeleteUserId(u.id);
                               openConfirmModal(
                                 `Delete ${u.name}?`,
                                 async () => {
