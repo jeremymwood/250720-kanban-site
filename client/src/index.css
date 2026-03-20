@@ -242,10 +242,10 @@ button:focus-visible {
   position: sticky;
   bottom: 0;
   z-index: 5;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr repeat(5, 1fr);
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
   padding: 1rem 0 0.5rem 0;
   background: var(--black);
   color: var(--green-dim);
@@ -267,12 +267,25 @@ button:focus-visible {
   padding-left: 12px;
 }
 
-.footer-about {
-  width: 100%;
-}
-
 .footer-about a {
   white-space: nowrap;
+}
+
+.footer-about {
+  grid-column: 1;
+  justify-self: start;
+  padding-left: 0;
+}
+
+.footer-email {
+  grid-column: 2;
+  justify-self: start;
+}
+
+.footer-social {
+  grid-column: 6;
+  justify-self: end;
+  padding-left: 0;
 }
 
 .email-container a {
