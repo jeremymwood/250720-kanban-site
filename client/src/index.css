@@ -1417,6 +1417,15 @@ textarea:disabled {
     font-size: 0.9rem;
   }
 
+  .issue-delete,
+  .modal-issue-close,
+  .modal-delete-close,
+  .modal-utilities-close,
+  .settings-user-delete {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
   .board-scroll.has-scrollbar {
     width: 100%;
     margin-right: 0;
