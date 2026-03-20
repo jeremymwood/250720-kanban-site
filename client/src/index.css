@@ -267,6 +267,14 @@ button:focus-visible {
   padding-left: 12px;
 }
 
+.footer-about {
+  width: 100%;
+}
+
+.footer-about a {
+  white-space: nowrap;
+}
+
 .email-container a {
   display: inline-flex;
   align-items: center;
