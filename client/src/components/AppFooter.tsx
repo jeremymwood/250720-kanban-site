@@ -3,7 +3,13 @@ function AppFooter() {
     <footer className="app-footer">
       <div className="footer-divider" aria-hidden="true"></div>
       <div className="footer-group">
-        <a href="#about-developer">About me</a>
+        <a
+          href="https://www.linkedin.com/in/jeremy-mason-wood/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          About me
+        </a>
       </div>
       <div className="footer-group email-container">
         <a href="mailto:jeremy.mason.wood@gmail.com">
